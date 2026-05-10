@@ -58,7 +58,7 @@ Minha atuação envolve desenvolvimento com **Java, Spring, Hibernate, SQL Serve
 
 | Categoria | Ferramentas |
 |---|---|
-| **Banco de Dados** | ![MongoDB Compass](https://img.shields.io/badge/MongoDB_Compass-0A0F1C?style=for-the-badge&logo=mongodb&logoColor=47A248) ![MongoDB Database Tools](https://img.shields.io/badge/MongoDB_Database_Tools-0A0F1C?style=for-the-badge&logo=mongodb&logoColor=47A248) ![SQL Server Management Studio](https://img.shields.io/badge/SSMS-0A0F1C?style=for-the-badge&logo=microsoftsqlserver&logoColor=ffffff) ![SQL Sentry Plan Explorer](https://img.shields.io/badge/SQL_Sentry_Plan_Explorer-0A0F1C?style=for-the-badge&logoColor=white) |
+| **Banco de Dados** | ![MongoDB Compass](https://img.shields.io/badge/MongoDB_Compass-0A0F1C?style=for-the-badge&logo=mongodb&logoColor=47A248) ![MongoDB Database Tools](https://img.shields.io/badge/MongoDB_Database_Tools-0A0F1C?style=for-the-badge&logo=mongodb&logoColor=47A248) ![SQL Server Management Studio](https://img.shields.io/badge/liquibase-0A0F1C?style=for-the-badge&logo=microsoftsqlserver&logoColor=ffffff) ![SQL Sentry Plan Explorer](https://img.shields.io/badge/sentry-0A0F1C?style=for-the-badge&logoColor=white) |
 | **DevOps / Versionamento** | ![Docker](https://img.shields.io/badge/Docker-0A0F1C?style=for-the-badge&logo=docker&logoColor=2496ED) ![Git](https://img.shields.io/badge/Git-0A0F1C?style=for-the-badge&logo=git&logoColor=F05032) ![GitHub](https://img.shields.io/badge/GitHub-0A0F1C?style=for-the-badge&logo=github&logoColor=ffffff) ![Azure DevOps](https://img.shields.io/badge/Azure_DevOps-0A0F1C?style=for-the-badge&logo=azuredevops&logoColor=0078D7) ![Sourcetree](https://img.shields.io/badge/Sourcetree-0A0F1C?style=for-the-badge&logo=sourcetree&logoColor=0052CC) |
 | **Build / Runtime** | ![Apache Maven](https://img.shields.io/badge/Apache_Maven-0A0F1C?style=for-the-badge&logo=apachemaven&logoColor=C71A36) ![Tomcat](https://img.shields.io/badge/Tomcat-0A0F1C?style=for-the-badge&logo=apachetomcat&logoColor=F8DC75) ![NPM](https://img.shields.io/badge/NPM-0A0F1C?style=for-the-badge&logo=npm&logoColor=CB3837) |
 | **IDEs / Editores** | ![Eclipse](https://img.shields.io/badge/Eclipse-0A0F1C?style=for-the-badge&logo=eclipseide&logoColor=2C2255) ![Apache NetBeans](https://img.shields.io/badge/Apache_NetBeans-0A0F1C?style=for-the-badge&logo=apachenetbeanside&logoColor=1B6AC6) ![Visual Studio Code](https://img.shields.io/badge/VS_Code-0A0F1C?style=for-the-badge&logo=visualstudiocode&logoColor=007ACC) ![Xcode](https://img.shields.io/badge/Xcode-0A0F1C?style=for-the-badge&logo=xcode&logoColor=147EFB) |
@@ -142,9 +142,6 @@ Eles demonstram minha busca constante por evolução técnica, aprofundamento em
 
 <div align="center">
 
-<img height="170em" src="https://github-readme-stats.vercel.app/api?username=robsonsestrem&show_icons=true&theme=github_dark_dimmed&hide_border=true&include_all_commits=true&count_private=true" />
-<img height="170em" src="https://github-readme-stats.vercel.app/api/top-langs/?username=robsonsestrem&layout=compact&theme=github_dark_dimmed&hide_border=true" />
-
 <br>
 
 <img height="170em" src="https://streak-stats.demolab.com?user=robsonsestrem&theme=github-dark-blue&hide_border=true" />
@@ -174,8 +171,17 @@ Acredito em tecnologia como meio para resolver problemas reais e gerar valor de 
 
 Se quiser trocar ideias sobre tecnologia, desenvolvimento de software, banco de dados ou oportunidades de colaboração, ficarei feliz em conversar.
 
-- 📫 **E-mail:** `sestrem.robson@gmail.com`
-- 💼 **LinkedIn:** `https://www.linkedin.com/in/robsonperfil/`
+<div align="center">
+  <a href="https://www.linkedin.com/in/robsonperfil" target="_blank">
+    <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" title="LinkedIn" alt="LinkedIn">
+  </a>
+  <a href="https://discord.com/" target="_blank">
+    <img src="https://img.shields.io/badge/Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white" title="Discord" alt="Discord">
+  </a>
+  <a href="mailto:sestrem.robson@gmail.com">
+    <img src="https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white" title="sestrem.robson@gmail.com" alt="Email">
+  </a>
+</div>
 
 ---
 
