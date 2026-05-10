@@ -26,7 +26,7 @@
 
 ---
 
-## 👨‍💼 Sobre Mim
+## Background Profissional
 
 Olá! Sou **Robson Sestrem**, desenvolvedor com foco em **Java** e **SQL**, com vivência na construção de soluções voltadas a backend, banco de dados, aplicações web e sistemas com impacto prático no ambiente profissional e acadêmico.
 
@@ -58,7 +58,7 @@ Minha atuação envolve desenvolvimento com **Java, Spring, Hibernate, SQL Serve
 
 | Categoria | Ferramentas |
 |---|---|
-| **Banco de Dados** | ![MongoDB Compass](https://img.shields.io/badge/MongoDB_Compass-0A0F1C?style=for-the-badge&logo=mongodb&logoColor=47A248) ![MongoDB Database Tools](https://img.shields.io/badge/MongoDB_Database_Tools-0A0F1C?style=for-the-badge&logo=mongodb&logoColor=47A248) ![SQL Server Management Studio](https://img.shields.io/badge/liquibase-0A0F1C?style=for-the-badge&logo=microsoftsqlserver&logoColor=ffffff) ![SQL Sentry Plan Explorer](https://img.shields.io/badge/sentry-0A0F1C?style=for-the-badge&logoColor=white) |
+| **Banco de Dados** | ![MongoDB Compass](https://img.shields.io/badge/MongoDB_Compass-0A0F1C?style=for-the-badge&logo=mongodb&logoColor=47A248) ![MongoDB Database Tools](https://img.shields.io/badge/MongoDB_Database_Tools-0A0F1C?style=for-the-badge&logo=mongodb&logoColor=47A248) ![SQL Server Management Studio](https://img.shields.io/badge/SQL_Server_Management_Studio-0A0F1C?style=for-the-badge&logo=liquibase&logoColor=ffffff) ![SQL Sentry Plan Explorer](https://img.shields.io/badge/SQL_Sentry_Plan_Explorer-0A0F1C?style=for-the-badge&logo=sentry&logoColor=ffffff) |
 | **DevOps / Versionamento** | ![Docker](https://img.shields.io/badge/Docker-0A0F1C?style=for-the-badge&logo=docker&logoColor=2496ED) ![Git](https://img.shields.io/badge/Git-0A0F1C?style=for-the-badge&logo=git&logoColor=F05032) ![GitHub](https://img.shields.io/badge/GitHub-0A0F1C?style=for-the-badge&logo=github&logoColor=ffffff) ![Azure DevOps](https://img.shields.io/badge/Azure_DevOps-0A0F1C?style=for-the-badge&logo=azuredevops&logoColor=0078D7) ![Sourcetree](https://img.shields.io/badge/Sourcetree-0A0F1C?style=for-the-badge&logo=sourcetree&logoColor=0052CC) |
 | **Build / Runtime** | ![Apache Maven](https://img.shields.io/badge/Apache_Maven-0A0F1C?style=for-the-badge&logo=apachemaven&logoColor=C71A36) ![Tomcat](https://img.shields.io/badge/Tomcat-0A0F1C?style=for-the-badge&logo=apachetomcat&logoColor=F8DC75) ![NPM](https://img.shields.io/badge/NPM-0A0F1C?style=for-the-badge&logo=npm&logoColor=CB3837) |
 | **IDEs / Editores** | ![Eclipse](https://img.shields.io/badge/Eclipse-0A0F1C?style=for-the-badge&logo=eclipseide&logoColor=2C2255) ![Apache NetBeans](https://img.shields.io/badge/Apache_NetBeans-0A0F1C?style=for-the-badge&logo=apachenetbeanside&logoColor=1B6AC6) ![Visual Studio Code](https://img.shields.io/badge/VS_Code-0A0F1C?style=for-the-badge&logo=visualstudiocode&logoColor=007ACC) ![Xcode](https://img.shields.io/badge/Xcode-0A0F1C?style=for-the-badge&logo=xcode&logoColor=147EFB) |
