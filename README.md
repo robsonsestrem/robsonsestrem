@@ -1,6 +1,6 @@
 <div align="center">
 
-<img width="100%" src="https://capsule-render.vercel.app/api?type=waving&color=0:05060A,25:0B0F19,50:111827,75:0F172A,100:020617&height=260&section=header&text=Robson%20Sestrem&fontSize=44&fontColor=E5E7EB&animation=fadeIn&fontAlignY=38&desc=Desenvolvedor%20Java%20%7C%20%TypeScript20%7C%20T-SQL%20%7C%20Solu%C3%A7%C3%B5es%20com%20prop%C3%B3sito&descAlignY=58&descSize=18" />
+<img width="100%" src="https://capsule-render.vercel.app/api?type=waving&color=0:05060A,25:0B0F19,50:111827,75:0F172A,100:020617&height=260&section=header&text=Robson%20Sestrem&fontSize=44&fontColor=E5E7EB&animation=fadeIn&fontAlignY=38&desc=Desenvolvedor%20Java%20%7C%20%TypeScript%20%7C%20T-SQL%20%7C%20Solu%C3%A7%C3%B5es%20com%20prop%C3%B3sito&descAlignY=58&descSize=18" />
 
 <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=24&pause=1200&color=22D3EE&center=true&vCenter=true&width=980&lines=Bem-vindo+ao+meu+perfil+no+GitHub;Desenvolvedor+com+foco+em+Java%2C+SQL+e+solu%C3%A7%C3%B5es+escal%C3%A1veis;Experi%C3%AAncia+com+backend%2C+banco+de+dados+e+aplica%C3%A7%C3%B5es+web;Sempre+evoluindo+com+tecnologia%2C+arquitetura+e+boas+pr%C3%A1ticas" alt="Typing SVG" />
 
