@@ -115,6 +115,7 @@ Site desenvolvido para uma **escola de inglês ativa**, com foco em presença di
 
 <tr>
 <td width="50%" valign="top">
+
 ### 🔄 ETL Nexus Core
 Projeto escalável em Java para integração de dados heterogêneos, com suporte inicial a planilhas como fonte e MongoDB como destino.
 
