@@ -181,7 +181,11 @@ Eles demonstram minha busca constante por evolução técnica, aprofundamento em
 
 <div align="center">
 
-<img src="./metrics.svg" alt="Calendário de contribuições" />
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/robsonsestrem/robsonsestrem/output/galaga-contribution-graph-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/robsonsestrem/robsonsestrem/output/galaga-contribution-graph.svg">
+  <img alt="Galaga sobre o mapa de contribuições" src="https://raw.githubusercontent.com/robsonsestrem/robsonsestrem/output/galaga-contribution-graph.svg">
+</picture>
 
 </div>
 
