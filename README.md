@@ -181,8 +181,8 @@ Eles demonstram minha busca constante por evolução técnica, aprofundamento em
 
 <div align="center">
   
-<img src="./metrics.svg" alt="Linguagens mais usadas no meu código" />
-  
+<img src="./metrics.svg" alt="Linguagens mais usadas" />
+<br><br>  
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/robsonsestrem/robsonsestrem/output/galaga-contribution-graph-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/robsonsestrem/robsonsestrem/output/galaga-contribution-graph.svg">
