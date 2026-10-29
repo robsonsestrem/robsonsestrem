@@ -181,7 +181,7 @@ Eles demonstram minha busca constante por evolução técnica, aprofundamento em
 
 <div align="center">
 
-<img src="https://github-readme-activity-graph.vercel.app/graph?username=robsonsestrem&theme=github-dark&hide_border=true&area=true" />
+<img src="./metrics.svg" alt="Calendário de contribuições" />
 
 </div>
 
