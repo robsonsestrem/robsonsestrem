@@ -1,0 +1,28 @@
+name: Update GitHub Stats
+on:
+  schedule:
+    - cron: '0 0 * * 0' # Roda todo domingo à meia-noite
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: Install dependencies
+        run: pip install requests pandas matplotlib seaborn
+      - name: Generate Chart
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python github_stats.py
+      - name: Commit and Push
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "<>"
+          git add github_languages.svg
+          git commit -m "chore: update language stats" || echo "No changes to commit"
+          git push
