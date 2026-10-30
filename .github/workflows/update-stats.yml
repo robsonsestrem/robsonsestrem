@@ -1,28 +1,42 @@
 name: Update GitHub Stats
+
 on:
   schedule:
-    - cron: '0 0 * * 0' # Roda todo domingo à meia-noite
+    - cron: '0 0 * * 0' # Executa todo domingo à meia-noite (UTC)
   workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
       - name: Setup Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.10'
+
       - name: Install dependencies
-        run: pip install requests pandas matplotlib seaborn
+        run: |
+          python -m pip install --upgrade pip
+          # Adicionado 'Pillow' para processamento dos ícones das linguagens
+          pip install requests pandas matplotlib seaborn Pillow
+
       - name: Generate Chart
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python github_stats.py
-      - name: Commit and Push
+
+      - name: Commit and Push changes
         run: |
-          git config user.name "GitHub Actions Bot"
-          git config user.email "<>"
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add github_languages.svg
-          git commit -m "chore: update language stats" || echo "No changes to commit"
-          git push
+          git commit -m "chore: update language stats with premium design [skip ci]" || true
+          git push origin HEAD:${{ github.ref_name }}
