@@ -177,14 +177,18 @@ Eles demonstram minha busca constante por evolução técnica, aprofundamento em
 
 ---
 
-## 📈 Contribuições
+## 📊 Linguagens Mais Utilizadas
 
 <div align="center">
   
-<img src="./languages_used.svg" alt="Linguagens mais usadas" />
+![Top Langs](./github_languages.svg)
 
-<br><br>  
+</div>
 
+---
+## 📈 Contribuições
+
+<div align="center">
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/robsonsestrem/robsonsestrem/output/galaga-contribution-graph-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/robsonsestrem/robsonsestrem/output/galaga-contribution-graph.svg">
