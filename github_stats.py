@@ -44,12 +44,21 @@ ICON_CANDIDATES = {
 }
 ICON_BASE = "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/{}.png"
 
-# --- DIMENSIONAMENTO DE ÍCONES (supersampling p/ nitidez no SVG) ---
-ICON_DISP_PX = 42      # tamanho final do ícone em pixels de display (~0,42 pol no SVG)
-SS = 4                 # fator de supersampling (canvas 4x maior p/ nitidez)
+# --- DIMENSIONAMENTO DE ÍCONES ---
+ICON_DISP_PX = 42
+SS = 4
 CANVAS_PX = ICON_DISP_PX * SS
-PAD_TITLE_BAR = 16     # espaço (px) entre o título e o início da barra
-GAP_ICON_TITLE = 18    # espaço (px) entre o ícone e o título
+PAD_TITLE_BAR = 16
+GAP_ICON_TITLE = 18
+
+# --- CLAREAMENTO DE ÍCONES ESCUROS (gamma > 1 clareia preservando o tom) ---
+ICON_GAMMA = {
+    "Java": 2.0,   # azul-escuro do logo some no fundo dark
+    "TSQL": 2.2,   # vinho do SQL Server some no fundo dark
+    "SQL": 2.2,
+}
+AUTO_LUM_THRESHOLD = 0.30  # luminância média < isso => gamma automático 1.8
+AUTO_GAMMA = 1.8
 
 FONT_PATH = findfont(FontProperties(family="DejaVu Sans", weight="bold"))
 
@@ -95,17 +104,34 @@ def fetch_icon(lang):
 def normalize_icon(img, canvas=CANVAS_PX):
     """Recorta transparência, mantém proporção e centraliza em canvas quadrado."""
     img = img.convert("RGBA")
-    bbox = img.getbbox()          
+    bbox = img.getbbox()
     if bbox:
         img = img.crop(bbox)
     w, h = img.size
-    usable = int(canvas * 0.88) 
+    usable = int(canvas * 0.88)
     scale = min(usable / w, usable / h)
     nw, nh = max(1, int(w * scale)), max(1, int(h * scale))
     img = img.resize((nw, nh), Image.Resampling.LANCZOS)
     out = Image.new("RGBA", (canvas, canvas), (0, 0, 0, 0))
     out.paste(img, ((canvas - nw) // 2, (canvas - nh) // 2), img)
     return out
+
+def mean_luminance(img):
+    """Luminância percebida média dos pixels visíveis (alpha > 10%)."""
+    arr = np.array(img.convert("RGBA")).astype(np.float32) / 255.0
+    mask = arr[..., 3] > 0.1
+    if not mask.any():
+        return 1.0
+    lum = 0.2126 * arr[..., 0] + 0.7152 * arr[..., 1] + 0.0722 * arr[..., 2]
+    return float(lum[mask].mean())
+
+def brighten(img, gamma):
+    """Correção gamma só no RGB (alpha intacto): clareia sem lavar as cores."""
+    if gamma == 1.0:
+        return img
+    arr = np.array(img.convert("RGBA")).astype(np.float32) / 255.0
+    arr[..., :3] = np.clip(arr[..., :3] ** (1.0 / gamma), 0.0, 1.0)
+    return Image.fromarray((arr * 255).astype(np.uint8), "RGBA")
 
 def make_monogram(initials, rgba, canvas=CANVAS_PX):
     """Fallback com o MESMO tamanho de canvas dos ícones (uniformidade)."""
@@ -121,6 +147,7 @@ def make_monogram(initials, rgba, canvas=CANVAS_PX):
            initials, font=font, fill=(255, 255, 255, 255))
     return img
 
+# --- 3. VISUALIZAÇÃO ---
 fig, ax = plt.subplots(figsize=(10, 6))
 fig.dpi = 100
 fig.patch.set_facecolor('#0d1117')
@@ -142,7 +169,6 @@ ax.set_title(f'Top {TOP_N} Linguagens no GitHub de @{USERNAME}',
 
 plt.subplots_adjust(left=0.24, right=0.90, top=0.90, bottom=0.08)
 
-# Medição REAL em pixels p/ posicionar colunas sem sobreposição
 fig.canvas.draw()
 renderer = fig.canvas.get_renderer()
 axw = ax.get_window_extent(renderer).width
@@ -151,8 +177,8 @@ title_max_px = max(renderer.get_text_width_height_descent(s, prop, False)[0]
                    for s in df['Linguagem'])
 
 trans = blended_transform_factory(ax.transAxes, ax.transData)
-title_x = -PAD_TITLE_BAR / axw                                  
-icon_right_x = -(PAD_TITLE_BAR + title_max_px + GAP_ICON_TITLE) / axw 
+title_x = -PAD_TITLE_BAR / axw
+icon_right_x = -(PAD_TITLE_BAR + title_max_px + GAP_ICON_TITLE) / axw
 
 icon_report = []
 for i, bar in enumerate(bars):
@@ -162,19 +188,21 @@ for i, bar in enumerate(bars):
     mb = width / (1024 * 1024)
     label = f'{mb:.1f} MB' if mb >= 1 else f'{width/1024:.1f} KB'
 
-    # Valor ao lado da barra
     ax.text(width + (df['Bytes'].max() * 0.02), y_center, label,
             va='center', color='#8b949e', fontsize=11)
 
-    # Título da linguagem
     ax.text(title_x, y_center, lang, transform=trans, ha='right', va='center',
             color='#ffffff', fontsize=12)
 
-    # Ícone normalizado
     raw = fetch_icon(lang)
     if raw is not None:
         img = normalize_icon(raw)
-        icon_report.append(f"{lang}: ícone OK")
+        lum = mean_luminance(img)
+        gamma = ICON_GAMMA.get(lang, 1.0)               
+        if gamma == 1.0 and lum < AUTO_LUM_THRESHOLD:
+            gamma = AUTO_GAMMA
+        img = brighten(img, gamma)
+        icon_report.append(f"{lang}: ícone OK (lum={lum:.2f}, gamma={gamma})")
     else:
         initials = ''.join(w[0] for w in lang.split()[:2]).upper()[:2]
         img = make_monogram(initials, colors[i])
