@@ -17,7 +17,7 @@ jobs:
       - name: Gerar grafico de linguagens
         uses: lowlighter/metrics@v3.34
         with:
-          user: robsonsestrem
+          user: ${{ github.repository_owner }}
           filename: languages_used.svg
           token: ${{ secrets.GITHUB_TOKEN }}
           committer_token: ${{ secrets.GITHUB_TOKEN }}
@@ -27,5 +27,5 @@ jobs:
           plugin_languages_limit: 8
           plugin_languages_sections: most-used
           plugin_languages_details: bytes-size, percentage
-          plugin_languages_threshold: 0%
+          plugin_languages_threshold: 1%
           plugin_languages_other: yes
