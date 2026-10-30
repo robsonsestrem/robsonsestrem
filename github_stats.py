@@ -1,5 +1,6 @@
 import requests
 import pandas as pd
+import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 from matplotlib.offsetbox import OffsetImage, AnnotationBbox
@@ -13,7 +14,7 @@ USERNAME = "robsonsestrem"
 TOKEN = os.getenv("GITHUB_TOKEN", "")
 TOP_N = 7
 
-# Mapeamento de linguagens para ícones
+# Mapeamento de linguagens para ícones (PNG de alta qualidade do Devicon)
 ICON_URLS = {
     "Python": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.png",
     "JavaScript": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.png",
@@ -52,6 +53,7 @@ for repo in repos:
 df = pd.DataFrame(list(lang_bytes.items()), columns=['Linguagem', 'Bytes'])
 df = df.sort_values(by='Bytes', ascending=False).reset_index(drop=True)
 
+# Agrupa o excedente em "Outras" para manter o gráfico limpo
 if len(df) > TOP_N:
     top_langs = df.head(TOP_N - 1).copy()
     others_bytes = df.iloc[TOP_N - 1:]['Bytes'].sum()
@@ -81,8 +83,9 @@ ax.spines['left'].set_visible(False)
 # Configuração de texto e eixos
 ax.set_title(f'Top {TOP_N} Linguagens no GitHub de @{USERNAME}', color='#ffffff', fontsize=16, fontweight='bold', pad=20)
 ax.tick_params(axis='x', colors='#8b949e', labelsize=10)
-ax.tick_params(axis='y', colors='#ffffff', labelsize=12, length=0) # Remove os tracinhos do eixo Y
+ax.tick_params(axis='y', colors='#ffffff', labelsize=12, length=0)
 
+# Adicionar ícones e rótulos de valor
 for i, bar in enumerate(bars):
     lang = df['Linguagem'].iloc[i]
     width = bar.get_width()
@@ -103,11 +106,11 @@ for i, bar in enumerate(bars):
             
             # Processar com PIL para garantir compatibilidade
             image = Image.open(io.BytesIO(img_data)).convert("RGBA")
-            
+            # Redimensionar para caber bem na barra (proporcional à altura)
             zoom_size = int(bar.get_height() * 100) 
             image = image.resize((zoom_size, zoom_size), Image.Resampling.LANCZOS)
             
-            
+            # Criar o box da imagem e posicionar à esquerda da barra
             img_box = OffsetImage(image, zoom=1)
             ab = AnnotationBbox(img_box, (width * -0.05, bar.get_y() + bar.get_height()/2), 
                                 frameon=False, xycoords='data', box_alignment=(1, 0.5))
@@ -115,7 +118,6 @@ for i, bar in enumerate(bars):
         except Exception:
             pass
 
-# Ajuste final de layout para não cortar os ícones à esquerda
 plt.subplots_adjust(left=0.25, right=0.85, top=0.9, bottom=0.1)
 
 # Salvar em SVG
