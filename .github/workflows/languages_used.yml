@@ -15,7 +15,7 @@ jobs:
       contents: write
     steps:
       - name: Gerar grafico de linguagens
-        uses: lowlighter/metrics@latest
+        uses: lowlighter/metrics@v3.34
         with:
           user: robsonsestrem
           filename: languages_used.svg
