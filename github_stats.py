@@ -5,20 +5,20 @@ import matplotlib.pyplot as plt
 from matplotlib.offsetbox import OffsetImage, AnnotationBbox
 from matplotlib.transforms import blended_transform_factory
 from matplotlib.ticker import FuncFormatter
+from matplotlib.font_manager import FontProperties, findfont
 from collections import defaultdict
 import os
 import urllib.request
 import io
-from PIL import Image
+from PIL import Image, ImageDraw, ImageFont
 
+# --- CONFIGURAÇÃO ---
 USERNAME = "robsonsestrem"
 TOKEN = os.getenv("GITHUB_TOKEN", "")
 TOP_N = 7
 
-# Linguagens que NÃO devem entrar na análise
-EXCLUDE_LANGUAGES = {"HTML"}
+EXCLUDE_LANGUAGES = {"HTML"}  # linguagens fora da análise
 
-# Ícones em PNG
 ICON_CANDIDATES = {
     "Python": ["python"],
     "JavaScript": ["javascript"],
@@ -44,11 +44,22 @@ ICON_CANDIDATES = {
 }
 ICON_BASE = "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/{}.png"
 
+# --- DIMENSIONAMENTO DE ÍCONES (supersampling p/ nitidez no SVG) ---
+ICON_DISP_PX = 42      # tamanho final do ícone em pixels de display (~0,42 pol no SVG)
+SS = 4                 # fator de supersampling (canvas 4x maior p/ nitidez)
+CANVAS_PX = ICON_DISP_PX * SS
+PAD_TITLE_BAR = 16     # espaço (px) entre o título e o início da barra
+GAP_ICON_TITLE = 18    # espaço (px) entre o ícone e o título
+
+FONT_PATH = findfont(FontProperties(family="DejaVu Sans", weight="bold"))
+
+# --- 1. COLETA DE DADOS ---
 headers = {"Authorization": f"token {TOKEN}"} if TOKEN else {}
 repos_url = f"https://api.github.com/users/{USERNAME}/repos?per_page=100&type=owner"
 repos = requests.get(repos_url, headers=headers).json()
 repos = [r for r in repos if not r.get("fork") and r.get("size", 0) > 0]
 
+# --- 2. PROCESSAMENTO ---
 lang_bytes = defaultdict(int)
 for repo in repos:
     langs = requests.get(repo["languages_url"], headers=headers).json()
@@ -67,6 +78,49 @@ if len(df) > TOP_N:
 else:
     df = df.head(TOP_N)
 
+# --- FUNÇÕES DE ÍCONE ---
+def fetch_icon(lang):
+    for name in ICON_CANDIDATES.get(lang, []):
+        url = ICON_BASE.format(name)
+        try:
+            req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+            with urllib.request.urlopen(req, timeout=10) as resp:
+                data = resp.read()
+            print(f"   [ICON] OK: {lang} -> {name}.png")
+            return Image.open(io.BytesIO(data))
+        except Exception as e:
+            print(f"   [ICON] Falhou {name}.png ({e.__class__.__name__})")
+    return None
+
+def normalize_icon(img, canvas=CANVAS_PX):
+    """Recorta transparência, mantém proporção e centraliza em canvas quadrado."""
+    img = img.convert("RGBA")
+    bbox = img.getbbox()          
+    if bbox:
+        img = img.crop(bbox)
+    w, h = img.size
+    usable = int(canvas * 0.88) 
+    scale = min(usable / w, usable / h)
+    nw, nh = max(1, int(w * scale)), max(1, int(h * scale))
+    img = img.resize((nw, nh), Image.Resampling.LANCZOS)
+    out = Image.new("RGBA", (canvas, canvas), (0, 0, 0, 0))
+    out.paste(img, ((canvas - nw) // 2, (canvas - nh) // 2), img)
+    return out
+
+def make_monogram(initials, rgba, canvas=CANVAS_PX):
+    """Fallback com o MESMO tamanho de canvas dos ícones (uniformidade)."""
+    r, g, b = [int(c * 255) for c in rgba[:3]]
+    img = Image.new("RGBA", (canvas, canvas), (0, 0, 0, 0))
+    d = ImageDraw.Draw(img)
+    m = int(canvas * 0.06)
+    d.ellipse([m, m, canvas - m, canvas - m], fill=(r, g, b, 255))
+    font = ImageFont.truetype(FONT_PATH, int(canvas * 0.42))
+    tb = d.textbbox((0, 0), initials, font=font)
+    d.text(((canvas - (tb[2] - tb[0])) / 2 - tb[0],
+            (canvas - (tb[3] - tb[1])) / 2 - tb[1]),
+           initials, font=font, fill=(255, 255, 255, 255))
+    return img
+
 fig, ax = plt.subplots(figsize=(10, 6))
 fig.dpi = 100
 fig.patch.set_facecolor('#0d1117')
@@ -76,37 +130,29 @@ colors = plt.cm.viridis(np.linspace(0.2, 0.9, len(df)))
 bars = ax.barh(df['Linguagem'], df['Bytes'], color=colors, height=0.6, edgecolor='none')
 ax.invert_yaxis()
 
-# Clean look: sem grade, sem bordas, sem ticks do Y (rótulos serão desenhados à mão)
 ax.grid(False)
 for spine in ax.spines.values():
     spine.set_visible(False)
 ax.set_yticks([])
 ax.set_xlim(0, df['Bytes'].max() * 1.18)
-
-# Eixo X formatado em MB
 ax.xaxis.set_major_formatter(FuncFormatter(lambda v, _: f'{v/1e6:.1f} MB' if v else '0'))
 ax.tick_params(axis='x', colors='#8b949e', labelsize=10, length=0)
-
 ax.set_title(f'Top {TOP_N} Linguagens no GitHub de @{USERNAME}',
              color='#ffffff', fontsize=16, fontweight='bold', pad=20)
 
-# Transformação mista: X em fração dos eixos (coluna de ícones/rótulos), Y em dados
-trans = blended_transform_factory(ax.transAxes, ax.transData)
+plt.subplots_adjust(left=0.24, right=0.90, top=0.90, bottom=0.08)
 
-def fetch_icon(lang):
-    """Baixa o PNG da linguagem. Retorna None se todas as tentativas falharem."""
-    for name in ICON_CANDIDATES.get(lang, []):
-        url = ICON_BASE.format(name)
-        try:
-            req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
-            with urllib.request.urlopen(req, timeout=10) as resp:
-                data = resp.read()
-            img = Image.open(io.BytesIO(data)).convert("RGBA")
-            print(f"   [ICON] OK: {lang} -> {name}.png")
-            return img
-        except Exception as e:
-            print(f"   [ICON] Falhou {name}.png ({e.__class__.__name__})")
-    return None
+# Medição REAL em pixels p/ posicionar colunas sem sobreposição
+fig.canvas.draw()
+renderer = fig.canvas.get_renderer()
+axw = ax.get_window_extent(renderer).width
+prop = FontProperties(size=12)
+title_max_px = max(renderer.get_text_width_height_descent(s, prop, False)[0]
+                   for s in df['Linguagem'])
+
+trans = blended_transform_factory(ax.transAxes, ax.transData)
+title_x = -PAD_TITLE_BAR / axw                                  
+icon_right_x = -(PAD_TITLE_BAR + title_max_px + GAP_ICON_TITLE) / axw 
 
 icon_report = []
 for i, bar in enumerate(bars):
@@ -120,25 +166,24 @@ for i, bar in enumerate(bars):
     ax.text(width + (df['Bytes'].max() * 0.02), y_center, label,
             va='center', color='#8b949e', fontsize=11)
 
-    # Nome da linguagem
-    ax.text(-0.04, y_center, lang, transform=trans, ha='right', va='center',
+    # Título da linguagem
+    ax.text(title_x, y_center, lang, transform=trans, ha='right', va='center',
             color='#ffffff', fontsize=12)
 
-    img = fetch_icon(lang)
-    if img is not None:
-        img = img.resize((48, 48), Image.Resampling.LANCZOS)
-        ab = AnnotationBbox(OffsetImage(img, zoom=1), (-0.115, y_center),
-                            xycoords=trans, frameon=False, box_alignment=(0.5, 0.5))
-        ax.add_artist(ab)
+    # Ícone normalizado
+    raw = fetch_icon(lang)
+    if raw is not None:
+        img = normalize_icon(raw)
         icon_report.append(f"{lang}: ícone OK")
     else:
         initials = ''.join(w[0] for w in lang.split()[:2]).upper()[:2]
-        ax.text(-0.115, y_center, initials, transform=trans, ha='center', va='center',
-                color='white', fontsize=11, fontweight='bold',
-                bbox=dict(boxstyle='circle,pad=0.4', fc=colors[i], ec='none'))
+        img = make_monogram(initials, colors[i])
         icon_report.append(f"{lang}: monograma (fallback)")
 
-plt.subplots_adjust(left=0.30, right=0.90, top=0.90, bottom=0.08)
+    ab = AnnotationBbox(OffsetImage(img, zoom=1/SS), (icon_right_x, y_center),
+                        xycoords=trans, frameon=False, box_alignment=(1.0, 0.5))
+    ax.add_artist(ab)
+
 plt.savefig('github_languages.svg', format='svg', bbox_inches='tight',
             facecolor=fig.get_facecolor())
 
