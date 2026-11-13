@@ -137,7 +137,7 @@ Projeto de curso com stack Typescript e NodeJS com experiência prática de apre
 <tr>
 <td width="50%" valign="top">
 
-### 🛢️ mssql-xe-observability
+### 🛢️ MSSQL With XE Observability
 Projeto com T-SQL e scripts operacionais para **observabilidade de instâncias SQL Server em Linux**, construídas sobre **Extended Events (XE)**.
 
 🔗 **Repositório:**  
