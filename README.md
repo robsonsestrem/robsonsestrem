@@ -123,7 +123,6 @@ Projeto escalável em Java para integração de dados heterogêneos, com suporte
 [github.com/robsonsestrem/etl-nexus-core](https://github.com/robsonsestrem/etl-nexus-core)
 
 </td>
-
 <td width="50%" valign="top">
 
 ### 📊 Sales API Node.js & TypeScript
@@ -133,8 +132,20 @@ Projeto de curso com stack Typescript e NodeJS com experiência prática de apre
 [github.com/robsonsestrem/sales-api-node-ts](https://github.com/robsonsestrem/sales-api-node-ts)
 
 </td>
-
 </tr>
+
+<tr>
+<td width="50%" valign="top">
+
+### 🛢️ mssql-xe-observability
+Projeto com T-SQL e scripts operacionais para **observabilidade de instâncias SQL Server em Linux**, construídas sobre **Extended Events (XE)**.
+
+🔗 **Repositório:**  
+[github.com/robsonsestrem/mssql-xe-observability](https://github.com/robsonsestrem/mssql-xe-observability)
+
+</td>
+</tr>
+
 </table>
 
 ---
@@ -145,7 +156,6 @@ Projeto de curso com stack Typescript e NodeJS com experiência prática de apre
 
 | Projeto | Descrição |
 |---|---|
-| **[mssql-xe-observability](https://github.com/robsonsestrem/mssql-xe-observability)** | Projeto para observabilidade relacionado a eventos do SQL Server com XE. |
 | **[pdv-country-party-frontend](https://github.com/robsonsestrem/pdv-country-party-frontend)** | Interface em desenvolvimento para um sistema voltado a **eventos escolares**, com foco em usabilidade e fluxo operacional. |
 | **[pdv-country-party](https://github.com/robsonsestrem/pdv-country-party)** | Projeto em evolução para gerenciamento de eventos escolares, contemplando regras de negócio e estrutura do sistema. |
 
